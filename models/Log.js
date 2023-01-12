@@ -10,10 +10,13 @@ const logSchema = new Schema({
         type: String,
         required: true
     },
+    /*
+    Tal vez solo puedo añadirlo al schema
     count: {
         type: Number,
         default: 0
     },
+    */
     log: [
         exerciseInfo
     ]
