@@ -1,14 +1,17 @@
-import express from "express"
-import cors from "cors"
 import dotenv from "dotenv"
 dotenv.config()
 
-import Exercise from "./models/Exercise.js"
+import express from "express"
+import cors from "cors"
+import bodyParser from "body-parser"
+import router from "./routes/index.js"
 
 const app = express()
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
 app.use(express.static('public'))
+app.use("/", router)
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
