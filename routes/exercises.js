@@ -12,7 +12,7 @@ router.post("/", validatePostExercise, async(req, res) => {
   const exercise = await updateExercise(req.targetUser._id, {
     description: description,
     duration: duration,
-    date: date
+    date: String(date)
   })
   res.send(await exercise.addUsername())
 });
