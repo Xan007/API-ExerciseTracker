@@ -6,6 +6,12 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import router from "./routes/index.js"
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+import "./db.js"
+
 const app = express()
 
 app.use(bodyParser.urlencoded({extended: true}));
