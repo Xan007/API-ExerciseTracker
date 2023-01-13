@@ -1,13 +1,15 @@
-import { Router } from "express"
+import { Router } from "express";
 
-import exercises from "../routes/exercises.js"
-import logs from "../routes/logs.js"
-import users from "../routes/users.js"
+import exercises from "../routes/exercises.js";
+import logs from "../routes/logs.js";
+import users from "../routes/users.js";
 
-const router = Router()
+import { getUserMiddleware } from "../middleware/userMiddleware.js"
 
-router.use("/users/", users)
-router.use("/users/:_id/exercises", exercises)
-router.use("/users/:_id/logs", logs)
+const router = Router();
 
-export default router
+router.use("/api/users/", users);
+router.use("/api/users/:_id/exercises", getUserMiddleware, exercises);
+router.use("/api/users/:_id/logs", getUserMiddleware, logs);
+
+export default router;
