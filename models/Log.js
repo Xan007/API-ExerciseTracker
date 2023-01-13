@@ -1,27 +1,42 @@
+import exerciseObject from "./shared/exerciseObject.js"
+
 import mongoose, { Schema, model } from "mongoose";
-import { exerciseInfo } from "./Exercise.js";
+import { getUsernameFromId } from "../controllers/userController.js";
 
 const logSchema = new Schema({
-    _id: {
-        type: mongoose.Types.ObjectId,
-        ref: "User"
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    /*
-    Tal vez solo puedo añadirlo al schema
-    count: {
-        type: Number,
-        default: 0
-    },
-    */
-    log: [
-        exerciseInfo
-    ]
+  _id: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+  count: {
+      type: Number,
+      default: 0
+  },
+  log: [{
+    type: exerciseObject, 
+    default: []
+  }],
+});
+
+//Añade la cuenta de logs, devuelve un objeto nuevo
+logSchema.method("updateCount", function() {
+  this.count = this.log.length
 })
 
-const Log = model("Log", logSchema)
+logSchema.method("addUsername", async function () {
+  const logObject = this.toObject()
 
-export default Log
+  logObject.username = await getUsernameFromId(this._id)
+
+  return logObject
+})
+
+logSchema.method("addExercise", function(exercise) {
+  delete exercise._id
+
+  this.log.push(exercise)
+})
+
+const Log = model("Log", logSchema);
+
+export default Log;
